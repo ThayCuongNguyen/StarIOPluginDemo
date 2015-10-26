@@ -1,33 +1,65 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope) {
-    $scope.checkStatus = function(){
+.controller('DashCtrl', function ($scope, $window) {
 
-      if(window.cordova.plugins.printer){
-        console.log('############## Printer plugin available');
-        window.cordova.plugins.printer.CheckStatus(1,function(success){
-          console.log('Success message',success);
-        },function(err){
-          console.log('error message',err);
-        });
-      }else {
-        console.log('****************** Printer plugin not available',window.cordova.plugins);
-      }
+  $scope.printers = [];
 
-    };
 
-    $scope.printHelloworld = function(){
-      if(window.cordova.plugins.printer){
-        console.log('############## Printer plugin available');
-        window.cordova.plugins.printer.PrintHello(1,function(success){
-          console.log('Success message',success);
-        },function(err){
-          console.log('error message',err);
-        });
-      }else {
-        console.log('****************** Printer plugin not available',window.cordova.plugins);
-      }
+  $scope.checkStatus = function () {
+
+    if ($window.plugins.starPrinter) {
+
+      $window.plugins.starPrinter.checkStatus($scope.printers[0].name, function (error, result) {
+        if (error) {
+          alert("Error : "+error);
+          console.log(error);
+        } else {
+          alert(result.offline? 'Printer offline' : 'Printer online');
+        }
+      });
+
+    } else {
+      console.log('-> Printer plugin not available');
     }
+  }
 
-  });
 
+  $scope.printReceipt = function () {
+
+    if ($window.plugins.starPrinter) {
+
+      $window.plugins.starPrinter.printReceipt($scope.printers[0].name, "Test\n Test \n\n\n Hello", function (error, result) {
+        if (error) {
+          alert(error);
+          console.log(error);
+        } else {
+
+        }
+      });
+
+    } else {
+      console.log('-> Printer plugin not available');
+    }
+  };
+
+
+  $scope.portDiscovery = function () {
+    if ($window.plugins.starPrinter) {
+      $window.plugins.starPrinter.portDiscovery(function (error, result) {
+          if (error) {
+            alert("Discovery error" + error);
+          } else {
+            alert(result.length + " printers found");
+            $scope.printers = result;
+          }
+      });
+     } else {
+        console.log('-> Printer plugin not available');
+      }
+
+
+  }
+
+
+
+});

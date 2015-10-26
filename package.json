@@ -15,7 +15,13 @@
     "shelljs": "^0.3.0"
   },
   "cordovaPlugins": [
-    "com.ionic.keyboard"
+    {
+      "locator": "https://github.com/InteractiveObject/StarIOPlugin.git",
+      "id": "fr.sellsy.startio"
+    }
   ],
-  "cordovaPlatforms": []
+  "cordovaPlatforms": [
+    "android",
+    "ios"
+  ]
 }

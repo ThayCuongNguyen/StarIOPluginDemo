@@ -1,24 +1,33 @@
 <ion-view view-title="Dashboard">
   <ion-content class="padding">
+
+      <div class="list card">
+          <div class="item item-divider">Printers</div>
+          <div class="item item-body" ng-repeat="printer in printers">
+              Name: {{printer.name}}
+              MacAddress: {{printer.macAddress}}
+          </div>
+          <button class="button button-positive" ng-click="portDiscovery()">
+              portDiscovery
+          </button>
+      </div>
+
+
     <div class="list card">
       <div class="item item-divider">Status</div>
       <div class="item item-body">
         <div>
-            <button class="button button-positive" ng-click="checkStatus()">
+            <button class="button button-positive" ng-enabled="printers.length > 0" ng-click="checkStatus()">
                 Check Status
             </button>
-        </div>
-      </div>
-    </div>
-    <div class="list card">
-      <div class="item item-divider">Print Test</div>
-      <div class="item item-body">
-        <div>
-            <button class="button button-positive" ng-click="printHelloworld()">
-                Print Hello World
+
+            <button class="button button-positive"  ng-enabled="printers.length > 0" ng-click="printReceipt()">
+                printReceipt
             </button>
+
         </div>
       </div>
     </div>
+
   </ion-content>
 </ion-view>
